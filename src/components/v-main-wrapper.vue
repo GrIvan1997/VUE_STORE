@@ -1,26 +1,36 @@
 <template>
     <div class="v_main_wrapper">
-        <VCatalog/>
-        <V_cardVue/>
+    <router-view></router-view>
+ <!--      <VCatalog/> 
+         <vCard
+        v-if="CART.length"
+     :cart_data = "CART"
+         -->
+       <!--  /> -->
     </div>
 </template>
 
 <script>
-import VCatalog from './VCatalog.vue'
-import V_cardVue from './V_card.vue'
+/* import VCatalog from './VCatalog.vue'
+import vCard from './V_card.vue' */
+import { mapGetters } from 'vuex'
 
 export default {
     name:'v_main_wrapper',
-    components: {
+ /*    components: {
     VCatalog,
-    V_cardVue
-},
+    vCard
+}, */
     props: {},
     data() {
         return {
         }
     },
-    computed:{},
+    computed:{
+        ...mapGetters([
+            'CART'
+        ])
+    },
     methods: {
         
     },
@@ -34,6 +44,7 @@ export default {
 <style scoped>
 .v_main_wrapper{
     display: flex;
+    flex-direction: column;
     max-width: 900px;
     margin: 0 auto;
 }

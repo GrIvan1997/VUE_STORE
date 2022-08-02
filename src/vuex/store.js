@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import Vue from 'vue'
 import Vuex from 'vuex'
+import 'core-js/es/array';
 
 
 Vue.use(Vuex);
@@ -14,7 +15,26 @@ let store = new Vuex.Store({
         state.products = products;
     },
     SET_CART: (state,product) => {
-      state.cart.push(product)
+      if (state.cart.length) {
+          let isProductExist = false;
+          state.cart.map(function(item){
+            if (item.article === product.article){
+              isProductExist = true;
+              item.quantity++
+            }
+          })
+          if (!isProductExist){
+            state.cart.push(product)
+          }
+      }
+      else{
+        state.cart.push(product)
+      }
+   
+    },
+    REMOVE_FROM_CART:(state, index) =>{
+      state.cart.splice(index,1)
+
     }
   },
   actions: {
@@ -33,6 +53,9 @@ return products;
     },
     ADD_TO_CART({commit}, product){
       commit('SET_CART',product);
+    },
+    DELETE_FROM_CART({commit},index){
+      commit('REMOVE_FROM_CART',index)
     }
   },
   getters:{
